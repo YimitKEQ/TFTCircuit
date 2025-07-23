@@ -1,0 +1,129 @@
+<!-- streams.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streams & Content - TFT Circuit</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div>
+                    <h1>TFTCircuit</h1>
+                </div>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="guides.html"><i class="fas fa-book"></i> Guides</a></li>
+                    <li><a href="tierlist.html"><i class="fas fa-list-ol"></i> Tier List</a></li>
+                    <li><a href="streams.html" class="active"><i class="fas fa-tv"></i> Streams</a></li>
+                    <li><a href="matches.html"><i class="fas fa-fist-raised"></i> Matches</a></li>
+                    <li><a href="team-builder.html"><i class="fas fa-users"></i> Team Builder</a></li>
+                    <li><a href="coach-directory.html"><i class="fas fa-chalkboard-teacher"></i> Coaching</a></li>
+                    <li><a href="meta-analytics.html"><i class="fas fa-chart-line"></i> Analytics</a></li>
+                    <li><a href="vod-library.html"><i class="fas fa-video"></i> VODs</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn login">Log In</button>
+                <button class="btn signup">Sign Up</button>
+            </div>
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <main class="guide-page-content">
+        <div class="container">
+            <h2 class="section-title">Streams & Content</h2>
+            <p class="section-subtitle" style="margin-top: -40px;">Watch and learn from the best TFT players and content creators.</p>
+
+            <!-- Featured Streamer -->
+            <div class="featured-streamer-container">
+                <div class="stream-embed large">
+                    <iframe id="featured-stream-iframe"
+                        src=""
+                        frameborder="0"
+                        allowfullscreen="true"
+                        scrolling="no"
+                        height="100%"
+                        width="100%">
+                    </iframe>
+                </div>
+                <div class="stream-info-box">
+                    <h3 id="featured-streamer-name">Riot Mortdog</h3>
+                    <p id="featured-streamer-description">Get insights directly from the source. Mortdog, the Lead Game Designer for TFT, often streams to discuss the meta, explain design decisions, and interact with the community.</p>
+                </div>
+            </div>
+
+            <!-- Discover More -->
+            <div class="discover-streamers">
+                <p>Click the button below to feature a random streamer from our curated list.</p>
+                <button id="random-streamer-btn" class="btn primary">Discover a Random Streamer</button>
+                <!-- Streamer buttons will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="index.html" class="logo footer-logo">
+                        <img src="assets/tftclogo.png" alt="TFT Circuit Logo" class="footer-logo-img">
+                        <h1>TFTCircuit</h1>
+                    </a>
+                    <p>Your path to professional Teamfight Tactics competition. Resources, tournaments, and training for aspiring pros.</p>
+                    <div class="social-icons">
+                        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-discord"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-twitch"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="tierlist.html">Tier List</a></li>
+                        <li><a href="guides.html">Guides</a></li>
+                        <li><a href="team-builder.html">Team Builder</a></li>
+                        <li><a href="streams.html">Streams</a></li>
+                        <li><a href="matches.html">Matches</a></li>
+                        <li><a href="meta-analytics.html">Analytics</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Company</h3>
+                     <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="cookie.html">Cookie Policy</a></li>
+                        <li><a href="api-terms.html">API Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 TFT Circuit. This is a fan project not affiliated with Riot Games.</p>
+                <p>Teamfight Tactics and Riot Games are trademarks or registered trademarks of Riot Games, Inc.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="assets/js/scripts.js"></script>
+</body>
+</html>
