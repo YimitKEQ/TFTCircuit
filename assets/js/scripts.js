@@ -422,3 +422,65 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// VOD Library Filter
+document.addEventListener('DOMContentLoaded', () => {
+    const filterButtons = document.querySelectorAll('.vod-filter-btn');
+    const vodCards = document.querySelectorAll('.vod-card');
+
+    if (filterButtons.length > 0 && vodCards.length > 0) {
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const filter = button.dataset.filter;
+
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                // Filter VOD cards
+                vodCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.tags.includes(filter)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    }
+});
+
+// Countdown Timer
+document.addEventListener('DOMContentLoaded', () => {
+    const countdownContainer = document.getElementById('countdown-timer');
+    if (!countdownContainer) return;
+
+    const countdownDate = new Date('July 30, 2025 06:00:00').getTime();
+
+    const updateCountdown = () => {
+        const now = new Date().getTime();
+        const distance = countdownDate - now;
+
+        if (distance < 0) {
+            countdownContainer.innerHTML = "Set 15 is Live!";
+            clearInterval(interval);
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        countdownContainer.innerHTML = `
+            Set 15 Launches In: 
+            <span>${days}d</span> 
+            <span>${hours}h</span> 
+            <span>${minutes}m</span> 
+            <span>${seconds}s</span>
+        `;
+    };
+
+    const interval = setInterval(updateCountdown, 1000);
+    updateCountdown(); // Initial call
+});

@@ -176,7 +176,32 @@ header .container {
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
+    position: relative;
 }
+
+#countdown-timer-container {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    padding: 8px 30px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    z-index: 999;
+    color: var(--darker);
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+#countdown-timer span {
+    margin: 0 5px;
+}
+
 
 .logo { 
     display: flex; 
