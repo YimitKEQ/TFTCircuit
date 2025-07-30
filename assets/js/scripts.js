@@ -92,7 +92,7 @@ if (hero) {
 function getChampionIcon(championName) {
     const champion = championsData.find(c => c.name === championName);
     if (!champion) return '';
-    return `<img src="assets/images/champions/${champion.id.toLowerCase()}.png" alt="${champion.name}" class="unit-icon" title="${championName}" data-champion-id="${champion.id}">`;
+    return `<img src="assets/images/champions/icons/${champion.id.toLowerCase()}.png" alt="${champion.name}" class="unit-icon" title="${championName}" data-champion-id="${champion.id}">`;
 }
 
 
@@ -338,6 +338,112 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Call the function to display featured comps on the home page
     displayFeaturedComps();
+
+    // --- Champion Modal Logic ---
+    const modal = document.getElementById('champion-modal');
+    const modalDetailsContainer = document.getElementById('modal-champion-details');
+    const closeModalBtn = document.querySelector('.close-modal-btn');
+
+    const openChampionModal = (championId) => {
+        const champion = championsData.find(c => c.id === championId);
+        if (!champion) return;
+
+        modalDetailsContainer.innerHTML = `
+            <div class="modal-header">
+                <img src="assets/images/champions/thumbnails/${champion.id}.jpg" alt="${champion.name}" class="modal-champ-thumb cost-${champion.cost}">
+                <div class="modal-champ-title">
+                    <h2>${champion.name}</h2>
+                    <p><strong>Cost:</strong> ${champion.cost} | <strong>Role:</strong> ${champion.role}</p>
+                </div>
+            </div>
+            <div class="modal-traits">
+                <h4>Traits</h4>
+                ${champion.traits.map(traitName => {
+                    const trait = traitsData[traitName];
+                    if (!trait) return '';
+                    const formattedTraitName = traitName.toLowerCase().replace(/ /g, '-');
+                    return `<div class="trait-badge"><img src="assets/images/traits/${formattedTraitName}.svg" alt="${traitName}" class="trait-icon">${traitName}</div>`;
+                }).join('')}
+            </div>
+            <div class="modal-ability">
+                <h4>Ability: ${champion.ability.name}</h4>
+                <p>${champion.ability.description}</p>
+            </div>
+        `;
+        modal.style.display = 'block';
+    };
+
+    const closeChampionModal = () => {
+        modal.style.display = 'none';
+    };
+
+    document.body.addEventListener('click', (e) => {
+        const targetChampion = e.target.closest('[data-champion-id]');
+        if (targetChampion) {
+            e.preventDefault();
+            openChampionModal(targetChampion.dataset.championId);
+        }
+    });
+
+    closeModalBtn.addEventListener('click', closeChampionModal);
+    window.addEventListener('click', (e) => {
+        if (e.target == modal) {
+            closeChampionModal();
+        }
+    });
+
+    // --- Champion Modal Logic ---
+    const modal = document.getElementById('champion-modal');
+    const modalDetailsContainer = document.getElementById('modal-champion-details');
+    const closeModalBtn = document.querySelector('.close-modal-btn');
+
+    const openChampionModal = (championId) => {
+        const champion = championsData.find(c => c.id === championId);
+        if (!champion) return;
+
+        modalDetailsContainer.innerHTML = `
+            <div class="modal-header">
+                <img src="assets/images/champions/thumbnails/${champion.id}.jpg" alt="${champion.name}" class="modal-champ-thumb cost-${champion.cost}">
+                <div class="modal-champ-title">
+                    <h2>${champion.name}</h2>
+                    <p><strong>Cost:</strong> ${champion.cost} | <strong>Role:</strong> ${champion.role}</p>
+                </div>
+            </div>
+            <div class="modal-traits">
+                <h4>Traits</h4>
+                ${champion.traits.map(traitName => {
+                    const trait = traitsData[traitName];
+                    if (!trait) return '';
+                    const formattedTraitName = traitName.toLowerCase().replace(/ /g, '-');
+                    return `<div class="trait-badge"><img src="assets/images/traits/${formattedTraitName}.svg" alt="${traitName}" class="trait-icon">${traitName}</div>`;
+                }).join('')}
+            </div>
+            <div class="modal-ability">
+                <h4>Ability: ${champion.ability.name}</h4>
+                <p>${champion.ability.description}</p>
+            </div>
+        `;
+        modal.style.display = 'block';
+    };
+
+    const closeChampionModal = () => {
+        modal.style.display = 'none';
+    };
+
+    document.body.addEventListener('click', (e) => {
+        const targetChampion = e.target.closest('[data-champion-id]');
+        if (targetChampion) {
+            e.preventDefault();
+            openChampionModal(targetChampion.dataset.championId);
+        }
+    });
+
+    closeModalBtn.addEventListener('click', closeChampionModal);
+    window.addEventListener('click', (e) => {
+        if (e.target == modal) {
+            closeChampionModal();
+        }
+    });
 
     // Champion Info Card Hover Logic
     let activeInfoCard = null;

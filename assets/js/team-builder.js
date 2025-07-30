@@ -14,6 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabs = document.querySelectorAll('.tab-link');
     const tabContents = document.querySelectorAll('.tab-content');
 
+    const itemSearch = document.getElementById('item-search');
+    const itemFilters = document.querySelectorAll('.item-filter');
+
     // --- State ---
     let boardState = Array(28).fill(null); // { championId: string, items: [] }
     let maxUnits = 8;
@@ -28,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         loadFromUrl();
         renderHexGrid();
         renderChampionPool(championsData);
-        renderItems();
+        renderItems(itemsData.completed);
         updateBoard();
         addEventListeners();
     }
@@ -36,11 +39,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- RENDER FUNCTIONS ---
     function renderHexGrid() {
         boardGrid.innerHTML = '';
-        for (let i = 0; i < 28; i++) {
-            const hex = document.createElement('div');
-            hex.classList.add('hex');
-            hex.dataset.index = i;
-            boardGrid.appendChild(hex);
+        let hexIndex = 0;
+        for (let i = 0; i < 4; i++) {
+            const row = document.createElement('div');
+            row.classList.add('row');
+            for (let j = 0; j < 7; j++) {
+                const hex = document.createElement('div');
+                hex.classList.add('hex');
+                hex.dataset.index = hexIndex;
+                // Create the permanent background element for every hex from the start
+                hex.innerHTML = `<div class="hex-background"></div>`;
+                row.appendChild(hex);
+                hexIndex++;
+            }
+            boardGrid.appendChild(row);
         }
     }
 
@@ -52,21 +64,21 @@ document.addEventListener('DOMContentLoaded', () => {
             champItem.dataset.championId = champ.id;
             champItem.draggable = true;
             champItem.innerHTML = `
-                <img src="/assets/tftclogo.png" alt="${champ.name}" class="champion-icon cost-${champ.cost}">
+                <img src="assets/images/champions/icons/${champ.id.toLowerCase()}.png" alt="${champ.name}" class="champion-icon cost-${champ.cost}">
                 <span class="champion-name">${champ.name}</span>
             `;
             championListGrid.appendChild(champItem);
         });
     }
 
-    function renderItems() {
+    function renderItems(items) {
         itemListGrid.innerHTML = '';
-        itemsData.completed.forEach(item => {
+        items.forEach(item => {
             const itemEl = document.createElement('div');
             itemEl.classList.add('item-item');
             itemEl.dataset.itemId = item.id;
             itemEl.draggable = true;
-            itemEl.innerHTML = `<img src="/assets/tftclogo.png" alt="${item.name}" title="${item.name}">`;
+            itemEl.innerHTML = `<img src="${item.icon}" alt="${item.name}" title="${item.name}">`;
             itemListGrid.appendChild(itemEl);
         });
     }
@@ -75,24 +87,40 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateBoard() {
         boardState.forEach((cell, index) => {
             const hex = boardGrid.querySelector(`.hex[data-index='${index}']`);
-            hex.innerHTML = '';
+            
+            // Remove only the old content, leaving the background intact
+            const oldContent = hex.querySelector('.hex-content');
+            if (oldContent) {
+                oldContent.remove();
+            }
+
+            // If a champion exists in the state, create and add the content
             if (cell) {
                 const champion = championsData.find(c => c.id === cell.championId);
+
+                const contentWrapper = document.createElement('div');
+                contentWrapper.className = 'hex-content';
+
                 const champOnBoard = document.createElement('div');
-                champOnBoard.classList.add('champion-on-board');
+                champOnBoard.className = 'champion-on-board';
                 champOnBoard.dataset.championId = champion.id;
                 champOnBoard.dataset.index = index;
                 champOnBoard.draggable = true;
+                champOnBoard.innerHTML = `<img src="assets/images/champions/icons/${champion.id.toLowerCase()}.png" alt="${champion.name}" class="champion-icon cost-${champion.cost}">`;
 
-                let itemsHtml = '<div class="item-slots">';
+                const itemSlots = document.createElement('div');
+                itemSlots.className = 'item-slots';
+                let itemsHtml = '';
                 for (let i = 0; i < 3; i++) {
                     const item = cell.items[i] ? itemsData.completed.find(itemData => itemData.id === cell.items[i]) : null;
-                    itemsHtml += `<div class="item-slot">${item ? `<img src='/assets/tftclogo.png' alt='${item.name}'>` : ''}</div>`;
+                    itemsHtml += `<div class="item-slot">${item ? `<img src='${item.icon}' alt='${item.name}'>` : ''}</div>`;
                 }
-                itemsHtml += '</div>';
+                itemSlots.innerHTML = itemsHtml;
 
-                champOnBoard.innerHTML = `<img src="/assets/tftclogo.png" alt="${champion.name}" class="champion-icon cost-${champion.cost}">${itemsHtml}`;
-                hex.appendChild(champOnBoard);
+                contentWrapper.appendChild(champOnBoard);
+                contentWrapper.appendChild(itemSlots);
+                
+                hex.appendChild(contentWrapper);
             }
         });
         updateUnitCount();
@@ -108,8 +136,61 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateActiveTraits() {
-        // This is a placeholder. A full trait calculation logic will be added later.
-        activeTraitsList.innerHTML = '<p class="no-traits">Trait calculation coming soon!</p>';
+        const traitCounts = {};
+        const championsOnBoard = boardState.filter(c => c !== null).map(c => c.championId);
+        const uniqueChampions = [...new Set(championsOnBoard)];
+
+        uniqueChampions.forEach(championId => {
+            const champion = championsData.find(c => c.id === championId);
+            if (champion && champion.traits) {
+                champion.traits.forEach(traitName => {
+                    traitCounts[traitName] = (traitCounts[traitName] || 0) + 1;
+                });
+            }
+        });
+
+        activeTraitsList.innerHTML = '';
+        const sortedTraits = Object.keys(traitCounts).sort((a, b) => traitCounts[b] - traitCounts[a]);
+
+        if (sortedTraits.length === 0) {
+            activeTraitsList.innerHTML = '<p class="no-traits">Add champions to see their traits.</p>';
+            return;
+        }
+
+        sortedTraits.forEach(traitName => {
+            const count = traitCounts[traitName];
+            const traitInfo = traitsData[traitName];
+            if (!traitInfo) return;
+
+            let activeStyle = 'inactive';
+            let nextThreshold = traitInfo.effects[0].min;
+            
+            for (let i = traitInfo.effects.length - 1; i >= 0; i--) {
+                if (count >= traitInfo.effects[i].min) {
+                    activeStyle = traitInfo.effects[i].style;
+                    nextThreshold = (i + 1 < traitInfo.effects.length) ? traitInfo.effects[i+1].min : null;
+                    break;
+                }
+            }
+
+            const traitEl = document.createElement('div');
+            traitEl.classList.add('active-trait', `trait-style-${activeStyle}`);
+            
+            const traitIconName = traitName.toLowerCase().replace(/ /g, '-');
+            const thresholds = traitInfo.effects.map(e => e.min).join('/');
+
+            traitEl.innerHTML = `
+                <div class="trait-icon-wrapper">
+                    <img src="assets/images/traits/${traitIconName}.svg" alt="${traitName}" class="trait-icon">
+                </div>
+                <div class="trait-details">
+                    <span class="trait-name">${traitName}</span>
+                    <span class="trait-thresholds">${thresholds}</span>
+                </div>
+                <span class="trait-count">${count}</span>
+            `;
+            activeTraitsList.appendChild(traitEl);
+        });
     }
 
     // --- EVENT LISTENERS ---
@@ -168,21 +249,29 @@ document.addEventListener('DOMContentLoaded', () => {
             const sourceIndex = e.dataTransfer.getData('sourceIndex');
             const targetIndex = parseInt(targetHex.dataset.index);
 
-            if (itemId) { // Dropping an item
-                if (boardState[targetIndex] && boardState[targetIndex].items.length < 3) {
-                    boardState[targetIndex].items.push(itemId);
+            // Case 1: Dropping an item
+            if (itemId) {
+                const targetCell = boardState[targetIndex];
+                // Only drop on a hex that has a champion and less than 3 items
+                if (targetCell && targetCell.items.length < 3) {
+                    targetCell.items.push(itemId);
                 }
-            } else if (championId) { // Dropping a champion
+            } 
+            // Case 2: Dropping a champion
+            else if (championId) {
                 const newCellData = { championId: championId, items: [] };
 
-                if (sourceIndex !== '') { // Moving from another hex
+                // If moving from another hex, preserve items
+                if (sourceIndex !== '' && sourceIndex !== null) {
                     const sourceCell = boardState[sourceIndex];
-                    if(sourceCell) newCellData.items = sourceCell.items;
-                    boardState[sourceIndex] = null;
+                    if (sourceCell) {
+                        newCellData.items = sourceCell.items;
+                    }
+                    boardState[sourceIndex] = null; // Clear the source hex
                 }
 
-                // Swap if target hex is occupied
-                if (boardState[targetIndex] && sourceIndex !== '') {
+                // If target hex is occupied, swap champions
+                if (boardState[targetIndex] && sourceIndex !== '' && sourceIndex !== null) {
                     boardState[sourceIndex] = boardState[targetIndex];
                 }
 
@@ -225,6 +314,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 costFilters.forEach(btn => btn.classList.remove('active'));
                 button.classList.add('active');
                 championSearch.dispatchEvent(new Event('input')); // Trigger search filter
+            });
+        });
+
+        // Item search filter
+        itemSearch.addEventListener('input', () => {
+            const searchTerm = itemSearch.value.toLowerCase();
+            const activeCategoryFilter = document.querySelector('.item-filter.active').dataset.category;
+            let filteredItems = itemsData.completed.filter(i => i.name.toLowerCase().includes(searchTerm));
+            if (activeCategoryFilter !== 'all') {
+                filteredItems = filteredItems.filter(i => i.category === activeCategoryFilter);
+            }
+            renderItems(filteredItems);
+        });
+
+        // Item category filters
+        itemFilters.forEach(button => {
+            button.addEventListener('click', () => {
+                itemFilters.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                itemSearch.dispatchEvent(new Event('input')); // Trigger search filter
             });
         });
 

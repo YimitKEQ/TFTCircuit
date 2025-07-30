@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TFT Board Layout</title>
+    <style>
+        :root {
+            --hex-size: 80px;
+            --hex-gap: 4px;
+            --board-bg: #0d1117;
+            --hex-bg: #161b22;
+            --hex-border: #30363d;
+            --hex-hover-bg: #0ea5e9;
+            --hex-hover-border: #7dd3fc;
+        }
+
+        body {
+            background-color: var(--board-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .board {
+            display: flex;
+            flex-direction: column;
+            /* Calculate the total height of the board based on hex size and overlap */
+            height: calc(4 * (var(--hex-size) * 0.75) + (3 * var(--hex-gap)));
+        }
+
+        .row {
+            display: flex;
+        }
+
+        /* Create the honeycomb overlap effect */
+        .row:not(:first-child) {
+            margin-top: calc(var(--hex-size) * -0.25);
+        }
+
+        /* Stagger the odd rows */
+        .row:nth-child(odd) {
+            margin-left: calc((var(--hex-size) / 2) + (var(--hex-gap) / 2));
+        }
+
+        .hex {
+            width: var(--hex-size);
+            height: calc(var(--hex-size) * 1.1547); /* Aspect ratio for a perfect hexagon */
+            margin: 0 var(--hex-gap);
+            background-color: var(--hex-bg);
+            border: 1px solid var(--hex-border);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+        }
+
+        .hex:hover {
+            background-color: var(--hex-hover-bg);
+            border-color: var(--hex-hover-border);
+            transform: scale(1.1);
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="board">
+        <div class="row">
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+        </div>
+        <div class="row">
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+        </div>
+        <div class="row">
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+        </div>
+        <div class="row">
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+            <div class="hex"></div>
+        </div>
+    </div>
+
+</body>
+</html>

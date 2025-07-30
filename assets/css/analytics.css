@@ -1,0 +1,119 @@
+/* assets/css/analytics.css */
+
+.analytics-main {
+    padding: 40px 20px;
+}
+
+.analytics-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 32px;
+    color: var(--primary);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--gray);
+    margin-bottom: 3rem;
+}
+
+.analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+}
+
+.chart-container {
+    background: var(--dark);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 25px;
+}
+
+.chart-container h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    color: var(--light);
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+}
+
+.bar-chart .bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.bar-chart .bar-label {
+    width: 120px;
+    flex-shrink: 0;
+    color: var(--gray);
+}
+
+.bar-chart .bar-wrapper {
+    flex-grow: 1;
+    background-color: var(--darker);
+    border-radius: 4px;
+    height: 20px;
+}
+
+.bar-chart .bar-fill {
+    height: 100%;
+    background-color: var(--primary);
+    border-radius: 4px;
+    width: 0; /* Set by JS */
+    transition: width 1s ease-in-out;
+}
+
+.bar-chart .bar-value {
+    margin-left: 15px;
+    font-weight: 600;
+}
+
+.ranked-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ranked-list li {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.ranked-list li:last-child {
+    border-bottom: none;
+}
+
+.ranked-list .rank {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary);
+    width: 30px;
+    text-align: center;
+}
+
+.ranked-list .item-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+}
+
+.ranked-list .item-name {
+    flex-grow: 1;
+    font-weight: 500;
+}
+
+.ranked-list .item-count {
+    font-size: 16px;
+    color: var(--gray);
+}

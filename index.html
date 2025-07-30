@@ -38,8 +38,7 @@
                 </ul>
             </nav>
             <div class="auth-buttons">
-                <button class="btn login">Log In</button>
-                <button class="btn signup">Sign Up</button>
+                <!-- Auth buttons are now dynamically loaded by auth.js -->
             </div>
             <div class="mobile-toggle">
                 <i class="fas fa-bars"></i>
@@ -388,6 +387,13 @@
         </div>
     </section>
 
+    <div id="champion-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal-btn">&times;</span>
+            <div id="modal-champion-details"></div>
+        </div>
+    </div>
+
     <footer>
         <div class="container">
             <div class="footer-grid">
@@ -441,8 +447,10 @@
     </footer>
 
     
-    <script src="assets/js/tierlist.js"></script>
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/traits.js"></script>
     <script src="assets/js/scripts.js"></script>
+    <script src="assets/js/auth.js"></script>
     <!-- Dummy change -->
 </body>
 </html>

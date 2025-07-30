@@ -1,0 +1,62 @@
+/* assets/css/auth.css */
+.auth-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    min-height: 70vh;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 400px;
+    background: var(--dark);
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.auth-container h2 {
+    text-align: center;
+    font-family: 'Orbitron', sans-serif;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--gray);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    background: var(--darker);
+    border: 1px solid var(--border-color);
+    color: var(--light);
+    border-radius: 4px;
+}
+
+.auth-container .btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+}
+
+.auth-switch {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.auth-switch a {
+    color: var(--primary);
+    text-decoration: none;
+}
+.auth-switch a:hover {
+    text-decoration: underline;
+}

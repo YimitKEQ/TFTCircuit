@@ -1,0 +1,22 @@
+/* assets/css/profile.css */
+.profile-main {
+    padding: 40px 20px;
+}
+
+.profile-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.profile-container h2 {
+    font-family: 'Orbitron', sans-serif;
+    color: var(--primary);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+}
+
+#saved-comps-list .data-card {
+    background: var(--dark);
+    border: 1px solid var(--border-color);
+}

@@ -1,0 +1,91 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+}
+
+.team-builder-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.board-container {
+    width: 70%;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(7, 92px); /* 7 columns for the hexes */
+    gap: 4px;
+    padding: 20px;
+    justify-content: center;
+}
+
+.hex {
+    width: 92px;
+    height: 80px;
+    background-color: #6c757d;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+/* Stagger the odd rows */
+.board > .hex:nth-child(14n + 8),
+.board > .hex:nth-child(14n + 9),
+.board > .hex:nth-child(14n + 10),
+.board > .hex:nth-child(14n + 11),
+.board > .hex:nth-child(14n + 12),
+.board > .hex:nth-child(14n + 13),
+.board > .hex:nth-child(14n + 14) {
+    margin-left: 46px; /* Half the width of a hex */
+}
+
+
+
+.hex .champion {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.bench {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 10px;
+    background-color: #e0e0e0;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.bench .champion-slot {
+    width: 80px;
+    height: 80px;
+    background-color: #ccc;
+    border-radius: 5px;
+}
+
+.sidebar {
+    width: 25%;
+}
+
+.champions-container, .items-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.champion-list, .item-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 10px;
+}
+
+.champion-list img, .item-list img {
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+}

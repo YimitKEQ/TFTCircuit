@@ -1,0 +1,13 @@
+# Admin panel files - DO NOT COMMIT
+admin.html
+/assets/js/admin.js
+/assets/css/admin.css
+
+# Downloaded data and scripts - DO NOT COMMIT
+tft_data.json
+download_new_assets.ps1
+download_item_assets.ps1
+download_all_assets.ps1
+download_icon_assets.ps1
+download_images.ps1
+download_missing_assets.ps1

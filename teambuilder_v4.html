@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TFT Team Builder</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/team-builder-v4.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="assets/tftclogo.png" alt="TFT Central Logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="tierlist.html">Tier List</a></li>
+                <li><a href="team-builder.html">Team Builder</a></li>
+                <li><a href="guides.html">Guides</a></li>
+                <li><a href="meta-analytics.html">Meta Analytics</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="team-builder-container">
+            <div class="board-container">
+                <h2>Team Composition</h2>
+                <div class="board" id="board"></div>
+                <div class="bench" id="bench"></div>
+            </div>
+            <div class="sidebar">
+                <div class="champions-container">
+                    <h2>Champions</h2>
+                    <div class="champion-list" id="champion-list"></div>
+                </div>
+                <div class="items-container">
+                    <h2>Items</h2>
+                    <div class="item-list" id="item-list"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 TFT Central. All rights reserved.</p>
+    </footer>
+
+    <script src="assets/js/data.js"></script>
+    <script src="assets/js/team-builder-v4.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TFT Team Builder Hex Grid</title>
+  <style>
+    body {
+      background-color: #0e1012;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: sans-serif;
+    }
+
+    .board {
+      display: grid;
+      grid-template-rows: repeat(4, 75px);
+      gap: 5px;
+      position: relative;
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+      position: relative;
+    }
+
+    .row:nth-child(odd) {
+      margin-left: 40px; /* offset for hex effect */
+    }
+
+    .hex {
+      width: 70px;
+      height: 75px;
+      background: #1e2227;
+      clip-path: polygon(
+        50% 0%,
+        93% 25%,
+        93% 75%,
+        50% 100%,
+        7% 75%,
+        7% 25%
+      );
+      border: 1px solid #555;
+      margin: 0 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .hex:hover {
+      transform: scale(1.05);
+      border-color: #00bfff;
+    }
+  </style>
+</head>
+<body>
+  <div class="board">
+    <!-- Generate 4 rows with 7 hexes each -->
+    <div class="row">
+      <div class="hex">1</div>
+      <div class="hex">2</div>
+      <div class="hex">3</div>
+      <div class="hex">4</div>
+      <div class="hex">5</div>
+      <div class="hex">6</div>
+      <div class="hex">7</div>
+    </div>
+    <div class="row">
+      <div class="hex">8</div>
+      <div class="hex">9</div>
+      <div class="hex">10</div>
+      <div class="hex">11</div>
+      <div class="hex">12</div>
+      <div class="hex">13</div>
+      <div class="hex">14</div>
+    </div>
+    <div class="row">
+      <div class="hex">15</div>
+      <div class="hex">16</div>
+      <div class="hex">17</div>
+      <div class="hex">18</div>
+      <div class="hex">19</div>
+      <div class="hex">20</div>
+      <div class="hex">21</div>
+    </div>
+    <div class="row">
+      <div class="hex">22</div>
+      <div class="hex">23</div>
+      <div class="hex">24</div>
+      <div class="hex">25</div>
+      <div class="hex">26</div>
+      <div class="hex">27</div>
+      <div class="hex">28</div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,45 +1,5 @@
 /* assets/css/team-builder.css */
 
-/* WIP Banner */
-.wip-banner {
-    position: fixed;
-    top: 50%;
-    left: -25%;
-    width: 150%;
-    transform: rotate(-25deg) translateY(-50%);
-    transform-origin: center;
-    background: repeating-linear-gradient(
-        45deg,
-        #FFD700,
-        #FFD700 30px,
-        #0D1117 30px,
-        #0D1117 60px
-    );
-    color: #0D1117;
-    text-align: center;
-    padding: 15px;
-    border-top: 4px solid #FFD700;
-    border-bottom: 4px solid #FFD700;
-    box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
-    z-index: 9999;
-    pointer-events: none; /* Allows clicking through the banner */
-}
-
-.wip-text {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 48px; /* Make it bigger */
-    font-weight: 900;
-    text-transform: uppercase;
-    text-shadow: 
-        2px 2px 0px #000, 
-        -2px -2px 0px #000, 
-        2px -2px 0px #000, 
-        -2px 2px 0px #000,
-        4px 4px 5px rgba(0,0,0,0.5);
-    color: #FFD700;
-    letter-spacing: 5px;
-}
-
 /* 1. Main Layout & Structure */
 .team-builder-main {
     padding: 40px 20px;
@@ -124,45 +84,195 @@
     border-color: var(--primary);
 }
 
+/* --- Final "Crystal Clear" Board Layout --- */
+
+:root {
+    --hex-size: 80px;
+    --hex-gap: 8px; /* Increased gap for clear spacing */
+    --hex-height: calc(var(--hex-size) * 1.1547);
+    
+    --color-board-bg: #0D1117;
+    --color-hex-bg: #161B22;
+    --color-hex-border: rgba(100, 116, 139, 0.4);
+    --color-hex-hover: #38BDF8;
+}
+
+.team-builder-main {
+    background: var(--color-board-bg);
+}
+
 .board-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 4px;
+    background: transparent;
+    padding: 20px 5px; /* Reduced horizontal padding */
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--hex-gap); /* This creates the vertical space between rows */
     margin-bottom: 20px;
+}
+
+.row {
+    display: flex;
+    gap: var(--hex-gap); /* This creates the horizontal space between hexes */
+}
+
+/* Stagger the EVEN rows */
+.row:nth-child(even) {
+    transform: translateX(calc(var(--hex-size) * 0.5 + var(--hex-gap) * 0.5));
 }
 
 .hex {
     position: relative;
-    width: 100%;
-    padding-bottom: 115.47%; /* Aspect ratio for hexagon */
-    background-color: var(--darker);
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s ease;
+    width: var(--hex-size);
+    height: var(--hex-height);
+    margin: 0 var(--hex-gap);
+    cursor: pointer;
+    /* This container is now just for positioning */
 }
 
-.hex.drag-over {
-    background-color: var(--primary);
+.hex-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-hex-bg);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    border: 1px solid var(--color-hex-border);
+    box-shadow: inset 0 0 2px 1px #0D1117;
+    transition: all 0.2s ease;
+    z-index: 1;
+}
+
+.hex:hover .hex-background {
+    background-color: #1E293B;
+    border-color: var(--color-hex-hover);
+    transform: scale(1.07);
+}
+
+.hex.drag-over .hex-background {
+    transform: scale(1.1);
+    border-color: white;
+    box-shadow: inset 0 0 2px 1px #0D1117, 0 0 15px var(--color-hex-hover);
+}
+
+.hex-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10; /* Content is always on top */
+    pointer-events: none; /* Allows clicks to pass through to the hex */
 }
 
 .hex .champion-on-board {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    height: 80%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: all; /* Re-enable pointer events for dragging the champion */
     cursor: grab;
 }
 
 .hex .champion-icon {
     width: 100%;
     height: 100%;
-    border-radius: 50%;
     object-fit: cover;
-    border: 2px solid transparent;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.item-slots {
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 4px;
+}
+
+.item-slot {
+    width: 22px;
+    height: 22px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.item-slot img {
+    width: 100%;
+    height: 100%;
+    border-radius: 4px;
+}
+
+.item-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+    gap: 10px;
+}
+
+.item-item {
+    cursor: grab;
+    transition: transform 0.2s;
+    background: var(--darker);
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.item-item:hover {
+    transform: scale(1.1);
+    border-color: var(--primary);
+}
+
+.item-item img {
+    width: 100%;
+    border-radius: 4px;
+    display: block;
+}
+
+.item-filters {
+    margin-bottom: 15px;
+}
+
+#item-search {
+    width: 100%;
+    background: var(--darker);
+    border: 1px solid var(--border-color);
+    color: var(--light);
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.category-filters {
+    display: flex;
+    justify-content: space-between;
+}
+
+.item-filter {
+    flex: 1;
+    background: var(--darker);
+    border: 1px solid var(--border-color);
+    color: var(--gray);
+    padding: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.item-filter:not(:last-child) {
+    border-right: none;
+}
+
+.item-filter:hover {
+    background: var(--dark);
+}
+
+.item-filter.active {
+    background: var(--primary);
+    color: var(--darker);
+    border-color: var(--primary);
 }
 
 .hex .champion-icon.cost-1 { border-color: #808080; }
@@ -180,16 +290,28 @@
 .traits-list-display {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
 }
 
-.trait-display-item {
+.active-trait {
     display: flex;
     align-items: center;
     gap: 10px;
     background: var(--darker);
     padding: 8px;
     border-radius: 4px;
+    border-left: 4px solid #4b5563; /* Default inactive border */
+    transition: all 0.3s ease;
+}
+
+.trait-icon-wrapper {
+    background: #111;
+    padding: 5px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
 .trait-icon {
@@ -197,13 +319,46 @@
     height: 24px;
 }
 
-.trait-name {
-    font-weight: 600;
+.trait-details {
     flex-grow: 1;
 }
 
-.trait-count {
+.trait-name {
+    font-weight: 600;
+    color: var(--light);
+    display: block;
+}
+
+.trait-thresholds {
+    font-size: 12px;
     color: var(--gray);
+}
+
+.trait-count {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--light);
+}
+
+/* Trait Tier Styles - "Lit Up" Effect */
+.trait-style-bronze {
+    border-left-color: #cd7f32;
+    box-shadow: 0 0 8px rgba(205, 127, 50, 0.5);
+}
+.trait-style-silver {
+    border-left-color: #c0c0c0;
+    box-shadow: 0 0 8px rgba(192, 192, 192, 0.5);
+}
+.trait-style-gold {
+    border-left-color: #ffd700;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.5);
+}
+.trait-style-chromatic {
+    border-left-color: #ff69b4;
+    box-shadow: 0 0 8px rgba(255, 105, 180, 0.5);
+}
+.trait-style-inactive {
+    opacity: 0.7;
 }
 
 /* 3. Selection Panel */
